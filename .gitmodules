@@ -1,0 +1,3 @@
+[submodule "Adafruit_CircuitPlayground"]
+	path = Adafruit_CircuitPlayground
+	url = https://github.com/adafruit/Adafruit_CircuitPlayground
