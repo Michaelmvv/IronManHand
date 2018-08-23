@@ -1,14 +1,43 @@
 #include "Arduino.h"
 #include <Adafruit_CircuitPlayground.h>
 
-//The setup function is called once at startup of the sketch
-void setup()
-{
-// Add your initialization code here
+//Mask Global Vars
+int faceButtonPin = 0;
+int faceLedPin = 0;
+int buttonLastState = LOW;
+int buttonState = LOW;
+int faceLedState = LOW;
+long lastDebounceTime;
+long debounceDelay = 1000;
+
+//Hand Global vars
+
+void setup() {
+	CircuitPlayground.begin();
+	CircuitPlayground.playTone(500, 100);
+	pinMode(faceButtonPin, INPUT);
+	pinMode(faceLedPin, OUTPUT);
 }
 
-// The loop function is called in an endless loop
-void loop()
-{
-//Add your repeated code here
+void loop() {
+	faceLightToggle();
+}
+
+void faceLightToggle() {
+	int input = digitalRead(faceButtonPin);
+	if (input != buttonLastState) {
+		lastDebounceTime = millis();
+		buttonLastState = input;
+	}
+
+	if ((millis() - lastDebounceTime) > debounceDelay) {
+		if (buttonState != buttonLastState) {
+			buttonState = buttonLastState;
+			if (buttonState == HIGH) {
+				faceLedState = !faceLedState;
+				digitalWrite(faceLedPin, faceLedState);
+			}
+		}
+	}
+
 }
