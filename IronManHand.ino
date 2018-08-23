@@ -7,10 +7,13 @@ int faceLedPin = 0;
 int buttonLastState = LOW;
 int buttonState = LOW;
 int faceLedState = LOW;
-long lastDebounceTime;
+long lastClickTime;
 long debounceDelay = 1000;
 
 //Hand Global vars
+
+//Function prototypes
+void faceLightToggle();
 
 void setup() {
 	CircuitPlayground.begin();
@@ -26,11 +29,11 @@ void loop() {
 void faceLightToggle() {
 	int input = digitalRead(faceButtonPin);
 	if (input != buttonLastState) {
-		lastDebounceTime = millis();
+		lastClickTime = millis();
 		buttonLastState = input;
 	}
 
-	if ((millis() - lastDebounceTime) > debounceDelay) {
+	if ((millis() - lastClickTime) > debounceDelay) {
 		if (buttonState != buttonLastState) {
 			buttonState = buttonLastState;
 			if (buttonState == HIGH) {
