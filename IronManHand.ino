@@ -4,8 +4,8 @@
 //Mask Global Vars
 int faceButtonPin = 1;
 int faceLedPin = 2;
-int buttonLastState = LOW;
-int buttonState = LOW;
+int buttonLastState = 0;
+int buttonState = 0;
 int faceLedState = LOW;
 unsigned long lastClickTime;
 unsigned long delayBetweenClicks = 1000;
@@ -15,12 +15,16 @@ unsigned long delayBetweenClicks = 1000;
 bool LampStateOn = false;
 #define POWER_UP_TIME 1000
 #define MAX_BRIGHTNESS 50
+int triggerButton = 3;
+int triggerButtonLastState = 0;
 
 //Function prototypes
 void faceLightToggle();
 void hand();
 void powerUp();
 void powerDown();
+void setBrightness(int i);
+void pewPewButton();
 
 void setup() {
 	CircuitPlayground.begin();
@@ -39,9 +43,10 @@ void loop() {
 	faceLightToggle();
 	hand();
 }
+
 void hand() {
 	float x = CircuitPlayground.motionX();
-	float y = CircuitPlayground.motionY();
+//	float y = CircuitPlayground.motionY();
 //	Serial.print("X: ");
 //	Serial.print(x);
 //	Serial.print(" Y: ");
@@ -60,30 +65,44 @@ void hand() {
 		//right up
 	}
 
+	if (LampStateOn)
+		pewPewButton();
 }
+
 void powerUp() {
 	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
-		CircuitPlayground.setBrightness(i);
-		for (int i = 0; i < 9; ++i) {
-			CircuitPlayground.setPixelColor(i, 255, 255, 255);
-		}
+		setBrightness(i);
 
 		CircuitPlayground.playTone(600 + (i * 1.5),
 		POWER_UP_TIME / MAX_BRIGHTNESS, true); //TODO MAKE THE TONE BETTER
 	}
 	LampStateOn = true;
 }
+
 void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
 	for (int i = og_b; i >= 0; i--) {
-		CircuitPlayground.setBrightness(i);
-		for (int i = 0; i < 9; ++i) {
-			CircuitPlayground.setPixelColor(i, 255, 255, 255);
-		}
-
-		CircuitPlayground.playTone(600 - (i * 1.5), POWER_UP_TIME / og_b, true); //TODO MAKE THE TONE BETTER
+		setBrightness(i);
+		CircuitPlayground.playTone(600 - (i * 2), POWER_UP_TIME / og_b, true); //TODO MAKE THE TONE BETTER
 	}
 	LampStateOn = false;
+}
+
+void setBrightness(int i) {
+	CircuitPlayground.setBrightness(i);
+	for (int i = 0; i < 10; ++i) {
+		CircuitPlayground.setPixelColor(i, 255, 255, 255);
+	}
+
+}
+void pewPewButton() {
+	int input = digitalRead(triggerButton);
+	if (input != triggerButtonLastState) {
+		triggerButtonLastState = input;
+		setBrightness(255);
+		CircuitPlayground.playTone(800, 500, true);
+		setBrightness(MAX_BRIGHTNESS);
+	}
 }
 
 //A toggle for the led's in the mask.
