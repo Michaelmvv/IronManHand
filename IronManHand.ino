@@ -12,16 +12,25 @@ unsigned long debounceDelay = 1000;
 
 //Hand Global vars
 #define ACCEL_LIMIT 500
+_Bool LampState = false;
+#define POWER_UP_TIME 2000
+#define MAX_BRIGHTNESS 255
 
 //Function prototypes
 void faceLightToggle();
 void hand();
+void powerUp();
+void powerDown();
 
 void setup() {
 	CircuitPlayground.begin();
 	CircuitPlayground.playTone(500, 100);
 	pinMode(faceButtonPin, INPUT);
 	pinMode(faceLedPin, OUTPUT);
+	CircuitPlayground.setBrightness(0);
+	for (int i = 0; i < 9; ++i) {
+		CircuitPlayground.setPixelColor(i, 255, 255, 255);
+	}
 }
 
 void loop() {
@@ -33,9 +42,9 @@ void hand() {
 	float y = CircuitPlayground.motionY();
 
 	if (y >= ACCEL_LIMIT) {
-		//usb up
+		powerUp();
 	} else if (x <= -ACCEL_LIMIT) {
-		//batt up
+		powerDown();
 	} else if (x >= ACCEL_LIMIT) {
 		//left up
 	} else if (x <= -ACCEL_LIMIT) {
@@ -43,7 +52,19 @@ void hand() {
 	}
 
 }
-
+void powerUp() {
+	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
+		CircuitPlayground.setBrightness(i);
+		delay(POWER_UP_TIME / MAX_BRIGHTNESS);
+	}
+}
+void powerDown() {
+	int og_b = CircuitPlayground.strip.getBrightness();
+	for (int i = og_b; i >= 0; i--) {
+		CircuitPlayground.setBrightness(i);
+		delay(POWER_UP_TIME / og_b);
+	}
+}
 void faceLightToggle() {
 	int input = digitalRead(faceButtonPin);
 	if (input != buttonLastState) {
