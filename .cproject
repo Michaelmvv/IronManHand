@@ -52,6 +52,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Wire/src}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/HID/src}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground/utility}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -76,6 +80,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Wire/src}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/HID/src}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground/utility}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -100,6 +108,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Wire/src}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/HID/src}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground/utility}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/IronManHand/libraries/Adafruit_Circuit_Playground}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -150,5 +162,7 @@
     <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
     	
     <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+    	
+    <storageModule moduleId="refreshScope"/>
     
 </cproject>

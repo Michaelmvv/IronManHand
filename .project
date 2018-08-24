@@ -42,6 +42,11 @@
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.21/variants/circuitplay32u4</locationURI>
 		</link>
 		<link>
+			<name>libraries/Adafruit_Circuit_Playground</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/Adafruit_Circuit_Playground/1.8.1</locationURI>
+		</link>
+		<link>
 			<name>libraries/HID</name>
 			<type>2</type>
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/arduino/hardware/avr/1.6.21/libraries/HID</locationURI>
