@@ -8,7 +8,7 @@ int buttonLastState = LOW;
 int buttonState = LOW;
 int faceLedState = LOW;
 unsigned long lastClickTime;
-unsigned long debounceDelay = 1000;
+unsigned long delayBetweenClicks = 1000;
 
 //Hand Global vars
 #define ACCEL_LIMIT 500
@@ -54,6 +54,7 @@ void hand() {
 	}
 
 }
+//TODO BUZZER UP
 void powerUp() {
 	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
 		CircuitPlayground.setBrightness(i);
@@ -61,6 +62,7 @@ void powerUp() {
 	}
 	LampStateOn = true;
 }
+//TODO BUZZER DOWN
 void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
 	for (int i = og_b; i >= 0; i--) {
@@ -69,6 +71,8 @@ void powerDown() {
 	}
 	LampStateOn = false;
 }
+
+//A toggle for the led's in the mask.
 void faceLightToggle() {
 	int input = digitalRead(faceButtonPin);
 	if (input != buttonLastState) {
@@ -76,7 +80,7 @@ void faceLightToggle() {
 		buttonLastState = input;
 	}
 
-	if ((millis() - lastClickTime) > debounceDelay) {
+	if ((millis() - lastClickTime) > delayBetweenClicks) {
 		if (buttonState != buttonLastState) {
 			buttonState = buttonLastState;
 			if (buttonState == HIGH) {
