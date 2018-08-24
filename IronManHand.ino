@@ -12,7 +12,7 @@ unsigned long debounceDelay = 1000;
 
 //Hand Global vars
 #define ACCEL_LIMIT 500
-_Bool LampState = false;
+_Bool LampStateOn = false;
 #define POWER_UP_TIME 2000
 #define MAX_BRIGHTNESS 255
 
@@ -42,9 +42,11 @@ void hand() {
 	float y = CircuitPlayground.motionY();
 
 	if (y >= ACCEL_LIMIT) {
-		powerUp();
+		if (!LampStateOn)
+			powerUp();
 	} else if (x <= -ACCEL_LIMIT) {
-		powerDown();
+		if (LampStateOn)
+			powerDown();
 	} else if (x >= ACCEL_LIMIT) {
 		//left up
 	} else if (x <= -ACCEL_LIMIT) {
@@ -57,6 +59,7 @@ void powerUp() {
 		CircuitPlayground.setBrightness(i);
 		delay(POWER_UP_TIME / MAX_BRIGHTNESS);
 	}
+	LampStateOn = true;
 }
 void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
@@ -64,6 +67,7 @@ void powerDown() {
 		CircuitPlayground.setBrightness(i);
 		delay(POWER_UP_TIME / og_b);
 	}
+	LampStateOn = false;
 }
 void faceLightToggle() {
 	int input = digitalRead(faceButtonPin);
