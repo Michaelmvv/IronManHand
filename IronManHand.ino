@@ -7,14 +7,15 @@ int faceLedPin = 0;
 int buttonLastState = LOW;
 int buttonState = LOW;
 int faceLedState = LOW;
-long lastClickTime;
-long debounceDelay = 1000;
+unsigned long lastClickTime;
+unsigned long debounceDelay = 1000;
 
 //Hand Global vars
 #define ACCEL_LIMIT 500
 
 //Function prototypes
 void faceLightToggle();
+void hand();
 
 void setup() {
 	CircuitPlayground.begin();
@@ -25,11 +26,11 @@ void setup() {
 
 void loop() {
 	faceLightToggle();
+	hand();
 }
 void hand() {
 	float x = CircuitPlayground.motionX();
 	float y = CircuitPlayground.motionY();
-	float z = CircuitPlayground.motionZ();
 
 	if (y >= ACCEL_LIMIT) {
 		//usb up
