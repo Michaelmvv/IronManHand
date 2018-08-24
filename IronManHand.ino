@@ -11,6 +11,7 @@ long lastClickTime;
 long debounceDelay = 1000;
 
 //Hand Global vars
+#define ACCEL_LIMIT 500
 
 //Function prototypes
 void faceLightToggle();
@@ -24,6 +25,22 @@ void setup() {
 
 void loop() {
 	faceLightToggle();
+}
+void hand() {
+	float x = CircuitPlayground.motionX();
+	float y = CircuitPlayground.motionY();
+	float z = CircuitPlayground.motionZ();
+
+	if (y >= ACCEL_LIMIT) {
+		//usb up
+	} else if (x <= -ACCEL_LIMIT) {
+		//batt up
+	} else if (x >= ACCEL_LIMIT) {
+		//left up
+	} else if (x <= -ACCEL_LIMIT) {
+		//right up
+	}
+
 }
 
 void faceLightToggle() {
