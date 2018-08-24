@@ -54,20 +54,19 @@ void hand() {
 	}
 
 }
-//TODO BUZZER UP
 void powerUp() {
 	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
 		CircuitPlayground.setBrightness(i);
-		delay(POWER_UP_TIME / MAX_BRIGHTNESS);
+		CircuitPlayground.playTone(400 + (i * 1.5),
+		POWER_UP_TIME / MAX_BRIGHTNESS, true);
 	}
 	LampStateOn = true;
 }
-//TODO BUZZER DOWN
 void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
 	for (int i = og_b; i >= 0; i--) {
 		CircuitPlayground.setBrightness(i);
-		delay(POWER_UP_TIME / og_b);
+		CircuitPlayground.playTone(400 - (i * 1.5), POWER_UP_TIME / og_b, true);
 	}
 	LampStateOn = false;
 }
