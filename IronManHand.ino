@@ -83,7 +83,7 @@ void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
 	for (int i = og_b; i >= 0; i--) {
 		setBrightness(i);
-		CircuitPlayground.playTone(600 - (i * 2), POWER_UP_TIME / og_b, true); //TODO MAKE THE TONE BETTER
+		CircuitPlayground.playTone(600 + (i * 1.5), POWER_UP_TIME / og_b, true); //TODO MAKE THE TONE BETTER
 	}
 	LampStateOn = false;
 }
@@ -117,7 +117,7 @@ void faceLightToggle() {
 	if ((millis() - lastClickTime) > delayBetweenClicks) {
 		if (buttonState != buttonLastState) {
 			buttonState = buttonLastState;
-			if (buttonState == HIGH) {
+			if (buttonState == 1) {
 				faceLedState = !faceLedState;
 				digitalWrite(faceLedPin, faceLedState);
 			}
