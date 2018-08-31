@@ -8,7 +8,7 @@ int buttonLastState = 0;
 int buttonState = 0;
 int faceLedState = LOW;
 unsigned long lastClickTime;
-unsigned long delayBetweenClicks = 1000;
+unsigned long pressTime = 500;
 
 //Hand Global vars
 #define ACCEL_LIMIT 8
@@ -18,13 +18,14 @@ bool LampStateOn = false;
 int triggerButton = 3;
 int triggerButtonLastState = 0;
 
-//Function prototypes
+//Function prototypes (You might not need them for Arduino)
 void faceLightToggle();
 void hand();
 void powerUp();
 void powerDown();
 void setBrightness(int i);
 void pewPewButton();
+void setBrightness(int i, int r, int g, int b);
 
 void setup() {
 	CircuitPlayground.begin();
@@ -89,18 +90,19 @@ void powerDown() {
 }
 
 void setBrightness(int i) {
+	setBrightness(i, 255, 255, 255);
+}
+void setBrightness(int i, int r, int g, int b) {
 	CircuitPlayground.setBrightness(i);
 	for (int i = 0; i < 10; ++i) {
-		CircuitPlayground.setPixelColor(i, 255, 255, 255);
+		CircuitPlayground.setPixelColor(i, r, g, b);
 	}
-
 }
 void pewPewButton() {
 	int input = digitalRead(triggerButton);
-	if (input != triggerButtonLastState) {
-		triggerButtonLastState = input;
-		setBrightness(255);
-		CircuitPlayground.playTone(800, 500, true);
+	if (input) {
+		setBrightness(255, 100, 100, 255);
+		CircuitPlayground.playTone(900, 500, true);
 		setBrightness(MAX_BRIGHTNESS);
 	}
 }
@@ -114,7 +116,7 @@ void faceLightToggle() {
 		buttonLastState = input;
 	}
 
-	if ((millis() - lastClickTime) > delayBetweenClicks) {
+	if ((millis() - lastClickTime) > pressTime) {
 		if (buttonState != buttonLastState) {
 			buttonState = buttonLastState;
 			if (buttonState == 1) {
