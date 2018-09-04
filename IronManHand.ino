@@ -33,10 +33,7 @@ void setup() {
 	CircuitPlayground.playTone(500, 100);
 	pinMode(faceButtonPin, INPUT);
 	pinMode(faceLedPin, OUTPUT);
-	CircuitPlayground.setBrightness(0);
-	for (int i = 0; i < 9; ++i) {
-		CircuitPlayground.setPixelColor(i, 255, 255, 255);
-	}
+	setBrightness(0);
 
 	Serial.begin(9600);
 }
@@ -76,7 +73,7 @@ void powerUp() {
 		setBrightness(i);
 
 		CircuitPlayground.playTone(600 + (i * 1.5),
-		POWER_UP_TIME / MAX_BRIGHTNESS, true); //TODO MAKE THE TONE BETTER
+		POWER_UP_TIME / MAX_BRIGHTNESS, true);
 	}
 	LampStateOn = true;
 }
@@ -85,7 +82,7 @@ void powerDown() {
 	int og_b = CircuitPlayground.strip.getBrightness();
 	for (int i = og_b; i >= 0; i--) {
 		setBrightness(i);
-		CircuitPlayground.playTone(600 + (i * 1.5), POWER_UP_TIME / og_b, true); //TODO MAKE THE TONE BETTER
+		CircuitPlayground.playTone(600 + (i * 1.5), POWER_UP_TIME / og_b, true);
 	}
 	LampStateOn = false;
 }
