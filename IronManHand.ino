@@ -17,6 +17,7 @@ bool LampStateOn = false;
 #define MAX_BRIGHTNESS 40
 int triggerButton = 3;
 int triggerButtonLastState = 0;
+bool randomColorOnShoot = false;
 
 //Function prototypes (You might not need them for Arduino)
 void faceLightToggle();
@@ -50,9 +51,9 @@ void hand() {
 	float y = CircuitPlayground.motionY();
 //	Serial.print("X: ");
 //	Serial.print(x);
-	Serial.print(" Y: ");
-	Serial.print(y);
-	Serial.print("\n");
+//	Serial.print(" Y: ");
+//	Serial.print(y);
+//	Serial.print("\n");
 
 	if (x >= ACCEL_LIMIT) {
 		if (!LampStateOn)
@@ -61,9 +62,9 @@ void hand() {
 		if (LampStateOn)
 			powerDown();
 	} else if (y >= ACCEL_LIMIT) {
-		//left up
+		randomColorOnShoot = true;
 	} else if (x <= -ACCEL_LIMIT) {
-		//right up
+		randomColorOnShoot = false;
 	}
 
 	if (LampStateOn)
@@ -101,8 +102,7 @@ void setBrightness(int i, int r, int g, int b) {
 void pewPewButton() {
 	int input = digitalRead(triggerButton);
 	if (input) {
-		//IF TRUE, JUST BE BLUE ELSE FLASH COLORS
-		if (true) {
+		if (!randomColorOnShoot) {
 			setBrightness(255, 100, 100, 255);
 			CircuitPlayground.playTone(900, 500, true);
 		} else {
