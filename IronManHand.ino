@@ -14,7 +14,7 @@ unsigned long pressTime = 500;
 #define ACCEL_LIMIT 8
 bool LampStateOn = false;
 #define POWER_UP_TIME 1000
-#define MAX_BRIGHTNESS 50
+#define MAX_BRIGHTNESS 40
 int triggerButton = 3;
 int triggerButtonLastState = 0;
 
@@ -47,12 +47,12 @@ void loop() {
 
 void hand() {
 	float x = CircuitPlayground.motionX();
-//	float y = CircuitPlayground.motionY();
+	float y = CircuitPlayground.motionY();
 //	Serial.print("X: ");
 //	Serial.print(x);
-//	Serial.print(" Y: ");
-//	Serial.print(y);
-//	Serial.print("\n");
+	Serial.print(" Y: ");
+	Serial.print(y);
+	Serial.print("\n");
 
 	if (x >= ACCEL_LIMIT) {
 		if (!LampStateOn)
@@ -60,7 +60,7 @@ void hand() {
 	} else if (x <= 0) {
 		if (LampStateOn)
 			powerDown();
-	} else if (x >= ACCEL_LIMIT) {
+	} else if (y >= ACCEL_LIMIT) {
 		//left up
 	} else if (x <= -ACCEL_LIMIT) {
 		//right up
@@ -101,8 +101,18 @@ void setBrightness(int i, int r, int g, int b) {
 void pewPewButton() {
 	int input = digitalRead(triggerButton);
 	if (input) {
-		setBrightness(255, 100, 100, 255);
-		CircuitPlayground.playTone(900, 500, true);
+		//IF TRUE, JUST BE BLUE ELSE FLASH COLORS
+		if (true) {
+			setBrightness(255, 100, 100, 255);
+			CircuitPlayground.playTone(900, 500, true);
+		} else {
+			CircuitPlayground.playTone(900, 500, false);
+			long sm = millis();
+			while (sm - millis() < 500) {
+				setBrightness(random(255), random(255), random(255), 255);
+				delay(50);
+			}
+		}
 		setBrightness(MAX_BRIGHTNESS);
 	}
 }
