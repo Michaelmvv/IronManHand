@@ -12,7 +12,7 @@ unsigned long pressTime = 500;
 
 //Hand Global vars
 #define ACCEL_LIMIT 8
-bool LampStateOn = false;
+bool lampStateOn = false;
 #define POWER_UP_TIME 1000
 #define MAX_BRIGHTNESS 40
 int triggerButton = 3;
@@ -32,6 +32,7 @@ void setup() {
 	CircuitPlayground.begin();
 	CircuitPlayground.playTone(500, 100);
 	pinMode(faceButtonPin, INPUT);
+	pinMode(triggerButton, INPUT);
 	pinMode(faceLedPin, OUTPUT);
 	setBrightness(0);
 
@@ -39,7 +40,7 @@ void setup() {
 }
 
 void loop() {
-	faceLightToggle();
+//	faceLightToggle();
 	hand();
 }
 
@@ -53,29 +54,31 @@ void hand() {
 //	Serial.print("\n");
 
 	if (x >= ACCEL_LIMIT) {
-		if (!LampStateOn)
+		if (!lampStateOn)
 			powerUp();
 	} else if (x <= 0) {
-		if (LampStateOn)
+		if (lampStateOn)
 			powerDown();
-	} else if (y >= ACCEL_LIMIT) {
+	}
+	if (y >= 6) {
 		randomColorOnShoot = true;
-	} else if (x <= -ACCEL_LIMIT) {
+	} else if (y <= -6) {
 		randomColorOnShoot = false;
 	}
 
-	if (LampStateOn)
+	if (lampStateOn)
 		pewPewButton();
 }
 
 void powerUp() {
+	digitalWrite(faceLedPin, HIGH);\
 	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
 		setBrightness(i);
 
 		CircuitPlayground.playTone(600 + (i * 1.5),
 		POWER_UP_TIME / MAX_BRIGHTNESS, true);
 	}
-	LampStateOn = true;
+	lampStateOn = true;
 }
 
 void powerDown() {
@@ -84,7 +87,9 @@ void powerDown() {
 		setBrightness(i);
 		CircuitPlayground.playTone(600 + (i * 1.5), POWER_UP_TIME / og_b, true);
 	}
-	LampStateOn = false;
+	lampStateOn = false;
+	digitalWrite(faceLedPin, LOW);
+
 }
 
 void setBrightness(int i) {
@@ -117,7 +122,7 @@ void pewPewButton() {
 //A toggle for the led's in the mask.
 void faceLightToggle() {
 	int input = digitalRead(faceButtonPin);
-	Serial.println(input);
+	//Serial.println(input);
 	if (input != buttonLastState) {
 		lastClickTime = millis();
 		buttonLastState = input;
