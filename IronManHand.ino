@@ -47,11 +47,6 @@ void loop() {
 void hand() {
 	float x = CircuitPlayground.motionX();
 	float y = CircuitPlayground.motionY();
-//	Serial.print("X: ");
-//	Serial.print(x);
-//	Serial.print(" Y: ");
-//	Serial.print(y);
-//	Serial.print("\n");
 
 	if (x >= ACCEL_LIMIT) {
 		if (!lampStateOn)
@@ -60,11 +55,10 @@ void hand() {
 		if (lampStateOn)
 			powerDown();
 	}
-	if (y >= 6) {
+	if (y >= 6)
 		randomColorOnShoot = true;
-	} else if (y <= -6) {
+	else if (y <= -6)
 		randomColorOnShoot = false;
-	}
 
 	if (lampStateOn)
 		pewPewButton();
@@ -74,7 +68,6 @@ void powerUp() {
 	digitalWrite(faceLedPin, HIGH);\
 	for (int i = 0; i <= MAX_BRIGHTNESS; ++i) {
 		setBrightness(i);
-
 		CircuitPlayground.playTone(600 + (i * 1.5),
 		POWER_UP_TIME / MAX_BRIGHTNESS, true);
 	}
